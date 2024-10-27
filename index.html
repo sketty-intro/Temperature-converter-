@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Temperature Converter</h1>
+    <!-- Input field for temperature -->
+    <input type="number" id="temperatureInput" placeholder="Enter temperature" required>
+
+    <!-- Dropdown for selecting temperature unit -->
+    <select id="unitSelect">
+      <option value="celsius">Celsius</option>
+      <option value="fahrenheit">Fahrenheit</option>
+      <option value="kelvin">Kelvin</option>
+    </select>
+
+    <!-- Convert button -->
+    <button onclick="convertTemperature()">Convert</button>
+
+    <!-- Display area for result -->
+    <p id="result"></p>
+  </div>
+
+  <script>
+    // Function to convert temperature based on selected unit
+    function convertTemperature() {
+      const temperatureInput = document.getElementById('temperatureInput').value;
+      const unit = document.getElementById('unitSelect').value;
+      const resultElement = document.getElementById('result');
+
+      // Validate input to ensure it's a number
+      if (isNaN(temperatureInput) || temperatureInput === '') {
+        resultElement.textContent = 'Please enter a valid number';
+        return;
+      }
+
+      const temperature = parseFloat(temperatureInput);
+      let convertedTemp, convertedUnit;
+
+      if (unit === 'celsius') {
+        // Convert from Celsius to Fahrenheit and Kelvin
+        const toFahrenheit = (temperature * 9/5) + 32;
+        const toKelvin = temperature + 273.15;
+        resultElement.innerHTML = `
+          ${temperature.toFixed(2)}° Celsius is:
+          <br> ${toFahrenheit.toFixed(2)}° Fahrenheit
+          <br> ${toKelvin.toFixed(2)} Kelvin
+        `;
+      } else if (unit === 'fahrenheit') {
+        // Convert from Fahrenheit to Celsius and Kelvin
+        const toCelsius = (temperature - 32) * 5/9;
+        const toKelvin = (temperature - 32) * 5/9 + 273.15;
+        resultElement.innerHTML = `
+          ${temperature.toFixed(2)}° Fahrenheit is:
+          <br> ${toCelsius.toFixed(2)}° Celsius
+          <br> ${toKelvin.toFixed(2)} Kelvin
+        `;
+      } else if (unit === 'kelvin') {
+        // Convert from Kelvin to Celsius and Fahrenheit
+        const toCelsius = temperature - 273.15;
+        const toFahrenheit = (temperature - 273.15) * 9/5 + 32;
+        resultElement.innerHTML = `
+          ${temperature.toFixed(2)} Kelvin is:
+          <br> ${toCelsius.toFixed(2)}° Celsius
+          <br> ${toFahrenheit.toFixed(2)}° Fahrenheit
+        `;
+      }
+    }
+  </script>
+
+</body>
+</html>
